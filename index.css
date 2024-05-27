@@ -1,0 +1,17 @@
+/* styles.css */
+body {
+    font-family: 'Inter', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400; /* Default weight */
+  }
+  
+  .inter-custom {
+    font-family: 'Inter', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: var(--inter-weight, 400); /* Default weight is 400 */
+    font-style: normal;
+    font-variation-settings: 'slnt' 0;
+  }
+  .placeholder-sm::placeholder {
+    font-size: 0.90rem; /* Example: 12px */
+  }

@@ -2,17 +2,14 @@ import React, { useState } from 'react'
 import loginImage from '../assets/Should You Build Your Own Container Home_ - Discover Containers.jpg'
 import { Link ,useNavigate} from 'react-router-dom';
 import Button from '../components/button';
-import {v4 as uuidv4} from 'uuid';
 import axiosInstance from '../instance/axiosInstance';
 
 
 function Signup() {
-  const id = uuidv4(10);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate=useNavigate();
   const [inputs, setInputs] = useState({
-    userid: id,
     username: '',
     email: '',
     phonenumber: '',
@@ -66,20 +63,25 @@ function Signup() {
     }else{
       try{
         const response = await axiosInstance.post('/user/signup', user);
+        const id=response.data.user._id
         setSuccess('Registration Successful');
         setTimeout(() => {
-          setSuccess(null);
-          navigate('/');
+          navigate(`/otp/${id}`);
         }, 2000);
       }catch(error){
+        if(error.response&&error.response.status===400){
+          setError(error.response.data.message||'Registration failed. Please try again')
+        }else{
           setError('Registration failed. Please try again');
-          setTimeout(()=> setError(null),2000)
+        }
+        setTimeout(() => {
+          setError(null);
+        }, 2000);
+          
       }
       
     }
   }
- 
-
   
 
   return (
@@ -104,7 +106,7 @@ function Signup() {
             </label>
           </div>
           {error? <span className='text-red-500 text-[0.80rem]'>{error}</span>:<span className='text-green-400 text-[0.80rem]'>{success}</span>}
-          <div className='text-[0.80rem] text-white w-full'>Already have an account? <Link to='/' className='text-custom-primary font-semibold'>Login</Link></div>
+          <div className='text-[0.80rem] text-white w-full'>Already have an account? <Link to='/login' className='text-custom-primary font-semibold'>Login</Link></div>
           <Button type='submit' className='bg-white p-2 rounded-sm mt-4 w-full h-9 font-bold text-black' content='Submit' />
         </form>
       </div>

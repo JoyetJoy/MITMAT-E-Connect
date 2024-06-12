@@ -1,34 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
+import loginImage from '../assets/login image.jpg';
+import Button from '../components/button';
+import axiosInstance from "../instance/axiosInstance";
+import { useParams,useNavigate } from "react-router-dom";
 
-const otp=()=>{
-    return(
-        <>
-        <img src={loginImage} className='h-screen w-full' alt='Login background' />
-      <div className='w-[22rem] h-[33rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg backdrop-blur-sm bg-custom-dark bg-opacity-65 flex items-center justify-center flex-col'>
-        <div className='w-full text-[40px] font-bold text-white flex justify-center mb-8 '>Signup</div>
-        <form className='flex items-center justify-center flex-col w-[65%]' onSubmit={handleSubmit}>
-          <input className='h-7 w-full mb-1 placeholder-sm pl-3 rounded-sm' placeholder='Username' type='text' name='username' value={inputs.username} onChange={handleChange} />
-          <input className='h-7 w-full mt-5 mb-1 placeholder-sm pl-3 rounded-sm' placeholder='Email' type='email' name='email' value={inputs.email} onChange={handleChange} />
-          <input className='h-7 w-full mt-5 mb-1 placeholder-sm pl-3 rounded-sm' placeholder='Phone Number' type='number' name='phonenumber' value={inputs.phonenumber} onChange={handleChange} />
-          <input className='h-7 w-full mt-5 mb-1 placeholder-sm pl-3 rounded-sm' placeholder='Password' type='password' name='password' value={inputs.password} onChange={handleChange} />
-          <input className='h-7 w-full mt-5 mb-1 placeholder-sm pl-3 rounded-sm' placeholder='Confirm Password' type='password' name='confirmpassword' value={inputs.confirmpassword} onChange={handleChange} />
-          <div className='text-white text-sm w-full flex gap-10 mb-1 mt-5 '>
-            <label>
-              <input type='radio' name='role' value='employee' checked={inputs.role === 'employee'} className='mr-2 ' onChange={handleChange} />
-              Employee
-            </label>
-            <label>
-              <input type='radio' name='role' value='user' checked={inputs.role === 'user'} className='mr-2 ' onChange={handleChange} />
-              User
-            </label>
-          </div>
-          {error? <span className='text-red-500 text-[0.80rem]'>{error}</span>:<span className='text-green-400 text-[0.80rem]'>{success}</span>}
-          <div className='text-[0.80rem] text-white w-full'>Already have an account? <Link to='/' className='text-custom-primary font-semibold'>Login</Link></div>
-          <Button type='submit' className='bg-white p-2 rounded-sm mt-4 w-full h-9 font-bold text-black' content='Submit' />
+const OTP = () => {
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [error,setError]=useState(null)
+  const {id}=useParams()
+  const navigate=useNavigate()
+
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    if (isNaN(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Focus next input
+    if (value && index < 3) {
+      document.getElementById(`otp-${index + 1}`).focus();
+    }
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+    const emptyFields=Object.values(otp).some((value)=>value==='')
+    const Otp=otp.join('')
+    
+    if(emptyFields){
+      setError('All fields required')
+    }else{
+      try{
+        const response=await axiosInstance.post('/user/otp',{otp:Otp,id:id})
+        setError(response.data.message)
+        navigate('/login')
+      }catch(error){
+        if(error.response&&error.response.status===400){
+          setError(error.response.data.message||'Invalid otp')
+        }else{
+          setError('Otp verification failed!')
+        }
+      }
+
+    }
+    
+
+  };
+
+  return (
+    <>
+      <img src={loginImage} className="h-screen w-full" alt="Login background" />
+      <div className="w-[20rem] h-[18rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-custom-dark bg-opacity-65 flex items-center flex-col backdrop-blur-sm">
+        <div className="w-full text-[37px] font-bold text-white flex justify-center mb-8 mt-8">Verify OTP</div>
+        <form onSubmit={handleSubmit}>
+        <div className="flex space-x-2 mb-4">
+          {otp.map((data, index) => (
+            <input
+              key={index}
+              id={`otp-${index}`}
+              type="text"
+              maxLength="1"
+              value={data}
+              onChange={(e) => handleChange(e, index)}
+              className="w-12 h-12 text-center text-2xl rounded-md"
+            />
+          ))}
+        </div>
+        {error&&<span className="text-red-400">{error}</span>}
+        <Button className='w-full h-10 bg-blue-500 mt-5 rounded-md hover:bg-blue-700' label="Submit" type='submit'  content='Verify'/>
         </form>
       </div>
-        </>
-    )
+    </>
+  );
 }
 
-export default otp;
+export default OTP;

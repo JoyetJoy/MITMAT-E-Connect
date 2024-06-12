@@ -1,22 +1,24 @@
 import { useState } from 'react'
 import { BrowserRouter,Route, Routes } from 'react-router-dom'
+import Landingpage from './pages/landingpage'
 import Login from './pages/login'
 import Signup from './pages/signup'
 import Otp from './pages/otp'
+import UserHome from './pages/userhome'
 
 
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <BrowserRouter>
     <Routes>
-      <Route exact path='/' element={<Login/>}/>
+      <Route exact path='/' element={<Landingpage/>}/>
+      <Route exact path='/login' element={<Login/>}/>
       <Route exact path='/signup' element={<Signup/>}/>
-      <Route exact path='/otp' element={<Otp/>}/>
-
+      <Route exact path='/otp/:id' element={<Otp/>}/>
+      <Route exact path='/userhome' element={<UserHome/>}/>
     </Routes>
     </BrowserRouter>
   )

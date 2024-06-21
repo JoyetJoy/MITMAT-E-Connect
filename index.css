@@ -15,3 +15,18 @@ body {
   .placeholder-sm::placeholder {
     font-size: 0.90rem; /* Example: 12px */
   }
+
+ 
+.image-shadow {
+  filter: drop-shadow(10px 10px 10px rgba(0,0,0,0.6));
+}
+
+.text-stroke {
+  -webkit-text-stroke: 2px white;
+  text-stroke: 2px white;
+}
+@media (max-width: 640px) {
+  .bg-none-sm {
+    background-image: none !important;
+  }
+}

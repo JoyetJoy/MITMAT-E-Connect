@@ -5,6 +5,7 @@ import Login from './pages/login'
 import Signup from './pages/signup'
 import Otp from './pages/otp'
 import UserHome from './pages/userhome'
+import Nav from './components/landingNavbar'
 
 
 
@@ -19,6 +20,7 @@ function App() {
       <Route exact path='/signup' element={<Signup/>}/>
       <Route exact path='/otp/:id' element={<Otp/>}/>
       <Route exact path='/userhome' element={<UserHome/>}/>
+      <Route exact path='/nav' element={<Nav/>}/>
     </Routes>
     </BrowserRouter>
   )

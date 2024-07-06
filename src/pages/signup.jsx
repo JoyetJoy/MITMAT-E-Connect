@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import loginImage from '../assets/Should You Build Your Own Container Home_ - Discover Containers.jpg'
+import backgroundImage from '../assets/Should You Build Your Own Container Home_ - Discover Containers.jpg'
 import { Link ,useNavigate} from 'react-router-dom';
 import Button from '../components/button';
 import axiosInstance from '../instance/axiosInstance';
@@ -85,8 +85,7 @@ function Signup() {
   
 
   return (
-    <>
-      <img src={loginImage} className='h-screen w-full' alt='Login background' />
+    <div className='h-screen bg-no-repeat bg-cover bg-center sm:bg-none mb-40' style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className='w-[22rem] h-[33rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg backdrop-blur-sm bg-custom-dark bg-opacity-65 flex items-center justify-center flex-col'>
         <div className='w-full text-[40px] font-bold text-white flex justify-center mb-8 '>Signup</div>
         <form className='flex items-center justify-center flex-col w-[65%]' onSubmit={handleSubmit}>
@@ -110,7 +109,7 @@ function Signup() {
           <Button type='submit' className='bg-white p-2 rounded-sm mt-4 w-full h-9 font-bold text-black' content='Submit' />
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

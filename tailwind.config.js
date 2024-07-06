@@ -19,6 +19,9 @@ export default {
       backgroundImage: {
         'custom-gradient': 'linear-gradient(to right, #fdf6f0, #ffffff)',
       },
+       backgroundImage: {
+        'background-gradient': 'linear-gradient(to bottom, #fdf6f0, #ffffff)'
+       },
       colors: {
         'custom-dark': 'rgb(52, 55, 34)', // Adding the custom color
         'customPurple': '#d6b7fd',

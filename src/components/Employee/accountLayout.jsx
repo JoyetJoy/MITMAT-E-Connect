@@ -1,16 +1,18 @@
-import React from 'react'
-import Navbar from './Navbar'
-import Sidebar from './profileSidebar'
-import {Outlet} from 'react-router-dom'
+import React from 'react';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
+import { Outlet } from 'react-router-dom';
+import Layout from '../auth';
 
-const accountLayout = () => {
+const AccountLayout = () => {
   return (
-    <>
-    <div><Navbar/></div>
-    <div className='flex'><Sidebar/><Outlet/></div>
-      
-    </>
-  )
-}
+    <Layout>
+      <>
+        <div><Navbar /></div>
+        <div className='flex'><Sidebar /><Outlet /></div>
+      </>
+    </Layout>
+  );
+};
 
-export default accountLayout
+export default AccountLayout;

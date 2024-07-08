@@ -39,6 +39,7 @@ const OTP = () => {
         if(error.response&&error.response.status===400){
           setError(error.response.data.message||'Invalid otp')
         }else{
+          console.log(error.response.status);
           setError('Otp verification failed!')
         }
       }

@@ -27,15 +27,16 @@ function Login() {
         setSuccessMessage('Login Successfully');
         // Redirect to OTP page immediately after setting success message
         console.log(response.data);
-        if (response.data.user) {
-          navigate(`/employee/account`);
+        localStorage.setItem('jwt',response.data.token)
+        const role=response.data.role;console.log(role);
+        if (role=='employee') {
+          navigate(`/userhome`);
         } else {
-          // Handle case where user ID is not present in the response
-          setError('error', { type: 'manual', message: 'User ID not found for OTP redirection.' });
+          navigate(`/clienthome`)
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          const id = error.response.data;console.log(id);
+          const id = error.response.data.user;console.log(id);
           navigate(`/otp/${id}`);
         } else {
           setError('error', { type: 'manual', message: error.response.data.message });
@@ -66,7 +67,7 @@ function Login() {
               Employee
             </label>
             <label>
-              <input type='radio' value='user' {...register('role', { required: true })} className='mr-2 ' />
+              <input type='radio' value='client' {...register('role', { required: true })} className='mr-2 ' />
               User
             </label>
           </div>
